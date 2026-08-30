@@ -23,11 +23,7 @@
   <script src="app.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      startUniqueAnimation();
-      checkPartnerNotifications();
-      
       const dateInput = document.getElementById('dateInput');
-      // Prevent picking past dates
       const today = new Date().toISOString().split('T')[0];
       dateInput.min = today;
       
@@ -39,7 +35,10 @@
       e.preventDefault();
       const selectedDate = document.getElementById('dateInput').value;
       if (saveChoice('date', selectedDate)) {
-        window.location.href = 'dashboard.html';
+        displaySweetToast(getRandomCompliment('date'));
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1500);
       }
     });
   </script>
