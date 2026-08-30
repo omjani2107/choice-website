@@ -13,7 +13,7 @@
     <h2>💕 Our Date Summary 💕</h2>
     
     <div class="info-group">
-      <span class="label">👤 Partner Name:</span>
+      <span class="label">👤 Couple:</span>
       <span class="value" id="user-name">Loading...</span>
     </div>
     <div class="info-group">
@@ -49,8 +49,8 @@
       rawDate = parseValue(getChoice('date'));
       sDate = formatDDMMYYYY(getChoice('date'));
       sVibe = parseValue(getChoice('vibe'));
-      sActivity = parseValue(getChoice('activity'));
-      sGift = parseValue(getChoice('gift'));
+      sActivity = parseValue(getChoice('drink') || getChoice('activity'));
+      sGift = parseValue(getChoice('treat') || getChoice('gift'));
       currentPwd = getSecretPassword();
 
       document.getElementById('user-name').innerText = uName;
@@ -61,9 +61,6 @@
 
       const baseUrl = window.location.origin + window.location.pathname.replace('profile.html', 'login.html');
       shareableLink = `${baseUrl}?key=${encodeURIComponent(currentPwd)}&user=${encodeURIComponent(uName)}&date=${encodeURIComponent(rawDate)}&vibe=${encodeURIComponent(sVibe)}&activity=${encodeURIComponent(sActivity)}&gift=${encodeURIComponent(sGift)}`;
-
-      startUniqueAnimation();
-      checkPartnerNotifications();
     });
 
     function buildMessage() {
