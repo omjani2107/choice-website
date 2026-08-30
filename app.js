@@ -19,7 +19,20 @@ function getAppKey(key) {
 function saveChoice(key, value) {
   if (key === 'room_password') {
     const cleanPwd = String(value).trim();
-    localStorage.setItem('couple_app_password', cleanPwd);
+    // Creates a unique room signature if one doesn't exist
+    let roomSignature = localStorage.getItem('couple_room_sig');
+    if (!roomSignature) {
+      roomSignature = cleanPwd + '_' + Math.random().toString(36).substring(2, 7);
+      localStorage.setItem('couple_room_sig', roomSignature);
+    }
+    localStorage.setItem('couple_app_password', roomSignature);
+  } else if (key === 'user') {
+    const isPartner = !!getUrlParam('key');
+    const roleKey = isPartner ? 'partner_name' : 'creator_name';
+    const nameVal = typeof value === 'object' ? (value.name || JSON.stringify(value)) : String(value);
+    
+    localStorage.setItem(getAppKey(roleKey), nameVal);
+    localStorage.setItem(getAppKey('last_user'), nameVal);
   } else {
     // Edit Cap Enforcer (Max 3 edits per option)
     if (['date', 'vibe', 'activity', 'gift'].includes(key)) {
@@ -42,7 +55,19 @@ function saveChoice(key, value) {
 }
 
 function getChoice(key) {
-  // Check URL parameters first so partner loads primary user's data
+  if (key === 'user') {
+    const urlUser = getUrlParam('user');
+    if (urlUser) return urlUser;
+
+    const creator = localStorage.getItem(getAppKey('creator_name'));
+    const partner = localStorage.getItem(getAppKey('partner_name'));
+
+    if (creator && partner) {
+      return creator === partner ? `${creator} & ${partner} (You 💕)` : `${creator} & ${partner}`;
+    }
+    return creator || partner || "Us 💕";
+  }
+
   const urlVal = getUrlParam(key);
   if (urlVal) {
     saveChoice(key, urlVal);
