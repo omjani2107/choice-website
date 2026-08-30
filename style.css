@@ -20,7 +20,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Base overlay mask to ensure content text remains easily readable over photo backgrounds */
+/* Base overlay mask for text contrast over photos */
 body::after {
   content: "";
   position: absolute;
@@ -34,7 +34,7 @@ body::after {
    2. PAGE BACKGROUND PICTURES
    ========================================== */
 
-/* 1. Index Page (Welcome / Landing) */
+/* 1. Index Page */
 body.bg-index {
   background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1920&q=80');
 }
@@ -44,7 +44,7 @@ body.bg-login {
   background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1920&q=80');
 }
 
-/* 3. Date / Calendar Page (Calendar Background) */
+/* 3. Date / Calendar Page */
 body.bg-date {
   background-image: url('https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1920&q=80');
 }
@@ -64,12 +64,12 @@ body.bg-treat, body.bg-gift {
   background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1920&q=80');
 }
 
-/* 7. Choice / Review Page */
+/* 7. Choice Page */
 body.bg-choice, body.bg-cart {
   background-image: url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1920&q=80');
 }
 
-/* 8. Profile / Summary Page (KEPT EXACTLY AS IT WAS) */
+/* 8. Profile / Summary Page (Kept as Gradient + Pattern) */
 body.bg-profile {
   background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%),
               radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
@@ -77,7 +77,7 @@ body.bg-profile {
 }
 
 body.bg-profile::after {
-  display: none; /* Disables dark photo overlay on profile page */
+  display: none;
 }
 
 body.bg-profile::before {
@@ -286,12 +286,24 @@ p {
 
 .notify-toast {
   position: fixed;
-  top: 20px; right: 20px;
-  background: #fff;
-  border-left: 5px solid #ff4b72;
-  padding: 12px 20px;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  z-index: 999;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  color: #ff3366;
+  border: 2px solid #ff758c;
+  padding: 12px 22px;
+  border-radius: 30px;
+  box-shadow: 0 10px 25px rgba(255, 75, 114, 0.35);
+  z-index: 9999;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-align: center;
   display: none;
+  animation: popupBounce 0.4s ease-out;
+}
+
+@keyframes popupBounce {
+  0% { transform: translate(-50%, -20px) scale(0.85); opacity: 0; }
+  100% { transform: translate(-50%, 0) scale(1); opacity: 1; }
 }
