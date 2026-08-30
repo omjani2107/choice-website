@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Choices</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gift">
+  <div class="heart-container" id="heartContainer"></div>
+  <div class="container popup-flip">
+    <div class="sweet-compliment">🛒 "Double checking our perfect date..." 🛒</div>
+    <h2>Review Choices 💕</h2>
+    
+    <div class="info-group">
+      <span class="label">🗓️ Date:</span>
+      <span class="value" id="cart-date">...</span>
+    </div>
+    <div class="info-group">
+      <span class="label">✨ Vibe:</span>
+      <span class="value" id="cart-vibe">...</span>
+    </div>
+    <div class="info-group">
+      <span class="label">🍹 Drink:</span>
+      <span class="value" id="cart-drink">...</span>
+    </div>
+    <div class="info-group">
+      <span class="label">🥐 Treat:</span>
+      <span class="value" id="cart-treat">...</span>
+    </div>
+
+    <button type="button" class="btn" style="margin-top: 20px;" onclick="finalizeDate()">Finalize & Get Share Link 🎉</button>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      enforceStep('gift', 'store.html');
+      startUniqueAnimation();
+      checkPartnerNotifications();
+
+      document.getElementById('cart-date').innerText = formatDDMMYYYY(getChoice('date'));
+      document.getElementById('cart-vibe').innerText = parseValue(getChoice('vibe'));
+      document.getElementById('cart-drink').innerText = parseValue(getChoice('activity'));
+      document.getElementById('cart-treat').innerText = parseValue(getChoice('gift'));
+    });
+
+    function finalizeDate() {
+      window.location.href = 'profile.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Setup</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-login">
+  <div class="heart-container" id="heartContainer"></div>
+  <div class="container popup-flip">
+    <div class="sweet-compliment">🌸 "Your smile brightens up my whole world!" 🌸</div>
+    <h2 id="login-heading">Enter Your Details 💑</h2>
+    <p id="login-subtext">Enter your name & set a shared secret password!</p>
+    
+    <form id="login-form">
+      <input type="text" id="name" placeholder="Your Name" required class="input-field">
+      <input type="password" id="password" placeholder="Secret Password (e.g. love2026)" required class="input-field">
+      <button type="submit" class="btn">Continue ✨</button>
+    </form>
+    <div id="sweetErrorBox" class="sweet-error"></div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    let expectedPassword = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      startUniqueAnimation();
+      checkPartnerNotifications();
+      
+      // Check if partner is opening a link shared by primary user
+      expectedPassword = getUrlParam('key');
+      
+      if (expectedPassword) {
+        document.getElementById('login-heading').innerText = "Unlock Date Plan 🔒💖";
+        document.getElementById('login-subtext').innerText = "Enter your name & your partner's secret password to unlock!";
+        document.getElementById('password').placeholder = "Enter Secret Password";
+      } else {
+        const savedPwd = localStorage.getItem('couple_app_password');
+        if (savedPwd) document.getElementById('password').value = savedPwd;
+      }
+      
+      const existingUser = getChoice('user');
+      if (existingUser) document.getElementById('name').value = parseValue(existingUser);
+    });
+
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const enteredPwd = document.getElementById('password').value.trim();
+
+      // PARTNER CHECK: Validate entered password against the shared link key
+      if (expectedPassword && enteredPwd !== expectedPassword) {
+        showSweetError("⚠️ Oopsie Cutie! That password is incorrect. Ask your partner for the secret password! 🥺💖");
+        return;
+      }
+
+      // PRIMARY USER / SUCCESSFUL PARTNER SETUP
+      saveChoice('room_password', enteredPwd);
+      saveChoice('user', { name: name });
+
+      window.location.href = 'date.html';
+    });
+  </script>
+</body>
+</html>

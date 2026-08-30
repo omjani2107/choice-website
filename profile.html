@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Summary & Profile</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-profile">
+  <div class="heart-container" id="heartContainer"></div>
+  <div class="summary-card popup-bounce">
+    <div class="sweet-compliment">💕 "Can't wait to go on this date with you!" 💕</div>
+    <h2>💕 Our Date Summary 💕</h2>
+    
+    <div class="info-group">
+      <span class="label">👤 Partner Name:</span>
+      <span class="value" id="user-name">Loading...</span>
+    </div>
+    <div class="info-group">
+      <span class="label">🗓️ Selected Date:</span>
+      <span class="value" id="summary-date">Loading...</span>
+    </div>
+    <div class="info-group">
+      <span class="label">✨ Date Vibe:</span>
+      <span class="value" id="summary-vibe">Loading...</span>
+    </div>
+    <div class="info-group">
+      <span class="label">🍹 Drink Choice:</span>
+      <span class="value" id="summary-activity">Loading...</span>
+    </div>
+    <div class="info-group">
+      <span class="label">🥐 Treat Selection:</span>
+      <span class="value" id="summary-gift">Loading...</span>
+    </div>
+
+    <h3 style="color:#ff4b72; margin: 20px 0 10px; font-size: 1rem;">Share Plan Directly:</h3>
+    <button type="button" class="btn-share insta-btn" onclick="shareToInstagram()">📸 Direct Share on Instagram</button>
+    <button type="button" class="btn-share whatsapp-btn" onclick="shareToWhatsApp()">📱 Share via WhatsApp</button>
+    <button type="button" class="btn-share telegram-btn" onclick="shareToTelegram()">✈️ Share via Telegram</button>
+    <button type="button" class="btn-share copy-btn" onclick="handleCopySummary()">📋 Copy Text Summary</button>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    let uName, sDate, rawDate, sVibe, sActivity, sGift, currentPwd, shareableLink;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      uName = parseValue(getChoice('user'));
+      rawDate = parseValue(getChoice('date'));
+      sDate = formatDDMMYYYY(getChoice('date'));
+      sVibe = parseValue(getChoice('vibe'));
+      sActivity = parseValue(getChoice('activity'));
+      sGift = parseValue(getChoice('gift'));
+      currentPwd = getSecretPassword();
+
+      document.getElementById('user-name').innerText = uName;
+      document.getElementById('summary-date').innerText = sDate;
+      document.getElementById('summary-vibe').innerText = sVibe;
+      document.getElementById('summary-activity').innerText = sActivity;
+      document.getElementById('summary-gift').innerText = sGift;
+
+      const baseUrl = window.location.origin + window.location.pathname.replace('profile.html', 'login.html');
+      shareableLink = `${baseUrl}?key=${encodeURIComponent(currentPwd)}&user=${encodeURIComponent(uName)}&date=${encodeURIComponent(rawDate)}&vibe=${encodeURIComponent(sVibe)}&activity=${encodeURIComponent(sActivity)}&gift=${encodeURIComponent(sGift)}`;
+
+      startUniqueAnimation();
+      checkPartnerNotifications();
+    });
+
+    function buildMessage() {
+      return `💖 *${uName}'s Date Plan* 💖\n` +
+             `🗓️ Date: ${sDate}\n` +
+             `✨ Vibe: ${sVibe}\n` +
+             `🍹 Drink: ${sActivity}\n` +
+             `🥐 Treat: ${sGift}\n\n` +
+             `🔗 Unlock & edit our date plan here:\n${shareableLink}`;
+    }
+
+    function shareToInstagram() {
+      navigator.clipboard.writeText(buildMessage());
+      alert("Plan & unlock link copied! Opening Instagram... Just paste it in a message to your partner 💕");
+      window.open(`https://www.instagram.com/direct/inbox/`, '_blank');
+    }
+
+    function shareToWhatsApp() {
+      window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(buildMessage()), '_blank');
+    }
+
+    function shareToTelegram() {
+      window.open("https://t.me/share/url?url=" + encodeURIComponent(shareableLink) + "&text=" + encodeURIComponent(buildMessage()), '_blank');
+    }
+
+    function handleCopySummary() {
+      navigator.clipboard.writeText(buildMessage());
+      alert("Summary and unlock link copied to clipboard! 📋💖");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pick Treats</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gift">
+  <div class="heart-container" id="heartContainer"></div>
+  <div class="container popup-flip">
+    <div class="sweet-compliment">🧁 "Something sweet for my sweetie!" 🧁</div>
+    <h2>Pick a Treat 🥐</h2>
+    <p>What snack or dessert should we grab?</p>
+    
+    <div class="options-grid">
+      <div class="option-card" onclick="selectTreat(this, 'Croissants & Pastries')">
+        <span class="icon">🥐</span>
+        <span class="text">Pastries</span>
+      </div>
+      <div class="option-card" onclick="selectTreat(this, 'Decadent Cake / Cupcakes')">
+        <span class="icon">🍰</span>
+        <span class="text">Cake / Pastry</span>
+      </div>
+      <div class="option-card" onclick="selectTreat(this, 'Ice Cream Sundae')">
+        <span class="icon">🍨</span>
+        <span class="text">Ice Cream</span>
+      </div>
+      <div class="option-card" onclick="selectTreat(this, 'Artisanal Chocolates')">
+        <span class="icon">🍫</span>
+        <span class="text">Chocolates</span>
+      </div>
+    </div>
+
+    <button type="button" class="btn" onclick="submitTreat()">View Summary 🛒</button>
+    <div id="sweetErrorBox" class="sweet-error"></div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    let chosenTreat = '';
+
+    document.addEventListener("DOMContentLoaded", () => {
+      enforceStep('activity', 'drink.html');
+      startUniqueAnimation();
+      checkPartnerNotifications();
+
+      const existingTreat = getChoice('gift');
+      if (existingTreat) {
+        chosenTreat = parseValue(existingTreat);
+        document.querySelectorAll('.option-card').forEach(card => {
+          if (card.querySelector('.text').innerText === chosenTreat) {
+            card.classList.add('selected');
+          }
+        });
+      }
+    });
+
+    function selectTreat(element, treatName) {
+      document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+      element.classList.add('selected');
+      chosenTreat = treatName;
+    }
+
+    function submitTreat() {
+      if (!chosenTreat) {
+        showSweetError("Please select a treat! 🧁");
+        return;
+      }
+      if (saveChoice('gift', chosenTreat)) {
+        window.location.href = 'cart.html';
+      }
+    }
+  </script>
+</body>
+</html>

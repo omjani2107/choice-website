@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partner's Results 💌</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Partner's Plan Results 💌</h2>
+    <p>Here is what your date plan looks like!</p>
+    
+    <div style="background: #fff5f7; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: left;">
+      <p style="margin-bottom: 8px;"><strong>👤 Partner Name:</strong> <span id="res-user"></span></p>
+      <p style="margin-bottom: 8px;"><strong>🗓️ Planned Date:</strong> <span id="res-date"></span></p>
+      <p style="margin-bottom: 8px;"><strong>✨ Chosen Vibe:</strong> <span id="res-vibe"></span></p>
+      <p style="margin-bottom: 8px;"><strong>🍹 Selected Drink:</strong> <span id="res-drink"></span></p>
+      <p style="margin-bottom: 0;"><strong>🥐 Selected Treat:</strong> <span id="res-treat"></span></p>
+    </div>
+
+    <button class="btn" onclick="window.location.href='index.html'">Plan Another Date ✨</button>
+  </div>
+
+  <script>
+    if (typeof applyDynamicBackground === 'function') applyDynamicBackground('profile');
+    if (typeof startUniqueAnimation === 'function') startUniqueAnimation('profile');
+
+    const u = JSON.parse(localStorage.getItem('user'));
+    document.getElementById('res-user').innerText = u ? u.name : 'Partner';
+    document.getElementById('res-date').innerText = JSON.parse(localStorage.getItem('date')) || 'Not selected';
+    document.getElementById('res-vibe').innerText = JSON.parse(localStorage.getItem('vibe')) || 'Not selected';
+    document.getElementById('res-drink').innerText = JSON.parse(localStorage.getItem('activity')) || 'Not selected';
+    document.getElementById('res-treat').innerText = JSON.parse(localStorage.getItem('gift')) || 'Not selected';
+  </script>
+</body>
+</html>

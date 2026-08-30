@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pick Drinks</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-activity">
+  <div class="heart-container" id="heartContainer"></div>
+  <div class="container popup-flip">
+    <div class="sweet-compliment">🍹 "Sip, sip, hooray!" 🍹</div>
+    <h2>Select Our Drinks 🥂</h2>
+    <p>What should we drink together?</p>
+    
+    <div class="options-grid">
+      <div class="option-card" onclick="selectDrink(this, 'Boba / Milk Tea')">
+        <span class="icon">🧋</span>
+        <span class="text">Boba Tea</span>
+      </div>
+      <div class="option-card" onclick="selectDrink(this, 'Hot Coffee / Latte')">
+        <span class="icon">☕</span>
+        <span class="text">Hot Coffee</span>
+      </div>
+      <div class="option-card" onclick="selectDrink(this, 'Fine Wine / Cocktails')">
+        <span class="icon">🍷</span>
+        <span class="text">Wine/Cocktails</span>
+      </div>
+      <div class="option-card" onclick="selectDrink(this, 'Fresh Fruit Smoothie')">
+        <span class="icon">🍓</span>
+        <span class="text">Smoothies</span>
+      </div>
+    </div>
+
+    <button type="button" class="btn" onclick="submitDrink()">Next Step 🥐</button>
+    <div id="sweetErrorBox" class="sweet-error"></div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    let chosenDrink = '';
+
+    document.addEventListener("DOMContentLoaded", () => {
+      enforceStep('vibe', 'dashboard.html');
+      startUniqueAnimation();
+      checkPartnerNotifications();
+
+      const existingDrink = getChoice('activity');
+      if (existingDrink) {
+        chosenDrink = parseValue(existingDrink);
+        document.querySelectorAll('.option-card').forEach(card => {
+          if (card.querySelector('.text').innerText === chosenDrink) {
+            card.classList.add('selected');
+          }
+        });
+      }
+    });
+
+    function selectDrink(element, drinkName) {
+      document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+      element.classList.add('selected');
+      chosenDrink = drinkName;
+    }
+
+    function submitDrink() {
+      if (!chosenDrink) {
+        showSweetError("Please pick a drink for us! 🍹");
+        return;
+      }
+      if (saveChoice('activity', chosenDrink)) {
+        window.location.href = 'store.html';
+      }
+    }
+  </script>
+</body>
+</html>

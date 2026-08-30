@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pick a Date</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-date">
+  <div class="heart-container" id="heartContainer"></div>
+  <div class="container popup-flip">
+    <div class="sweet-compliment">✨ "Every second with you is precious!" ✨</div>
+    <h2>Pick Our Date 🗓️</h2>
+    <p>Choose when we should go on our romantic date!</p>
+    
+    <form id="date-form">
+      <input type="date" id="dateInput" required class="input-field">
+      <button type="submit" class="btn">Next Step 💕</button>
+    </form>
+    <div id="sweetErrorBox" class="sweet-error"></div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      startUniqueAnimation();
+      checkPartnerNotifications();
+      
+      const dateInput = document.getElementById('dateInput');
+      // Prevent picking past dates
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.min = today;
+      
+      const existingDate = getChoice('date');
+      if (existingDate) dateInput.value = parseValue(existingDate);
+    });
+
+    document.getElementById('date-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const selectedDate = document.getElementById('dateInput').value;
+      if (saveChoice('date', selectedDate)) {
+        window.location.href = 'dashboard.html';
+      }
+    });
+  </script>
+</body>
+</html>

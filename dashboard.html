@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Vibe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-vibe">
+  <div class="heart-container" id="heartContainer"></div>
+  <div class="container popup-flip">
+    <div class="sweet-compliment">🌸 "Matching your amazing energy!" 🌸</div>
+    <h2>Choose Date Vibe ✨</h2>
+    <p>What kind of vibe are you feeling for our date?</p>
+    
+    <div class="options-grid">
+      <div class="option-card" onclick="selectVibe(this, 'Cozy & Romantic')">
+        <span class="icon">🕯️</span>
+        <span class="text">Cozy & Romantic</span>
+      </div>
+      <div class="option-card" onclick="selectVibe(this, 'Fun & Adventurous')">
+        <span class="icon">🎡</span>
+        <span class="text">Fun & Adventurous</span>
+      </div>
+      <div class="option-card" onclick="selectVibe(this, 'Chill & Casual')">
+        <span class="icon">☕</span>
+        <span class="text">Chill & Casual</span>
+      </div>
+      <div class="option-card" onclick="selectVibe(this, 'Fancy & Fancy')">
+        <span class="icon">🥂</span>
+        <span class="text">Fancy Night</span>
+      </div>
+    </div>
+
+    <button type="button" class="btn" onclick="submitVibe()">Continue 🍹</button>
+    <div id="sweetErrorBox" class="sweet-error"></div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    let chosenVibe = '';
+
+    document.addEventListener("DOMContentLoaded", () => {
+      enforceStep('date', 'date.html');
+      startUniqueAnimation();
+      checkPartnerNotifications();
+
+      const existingVibe = getChoice('vibe');
+      if (existingVibe) {
+        chosenVibe = parseValue(existingVibe);
+        document.querySelectorAll('.option-card').forEach(card => {
+          if (card.querySelector('.text').innerText === chosenVibe) {
+            card.classList.add('selected');
+          }
+        });
+      }
+    });
+
+    function selectVibe(element, vibeName) {
+      document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+      element.classList.add('selected');
+      chosenVibe = vibeName;
+    }
+
+    function submitVibe() {
+      if (!chosenVibe) {
+        showSweetError("Please select a vibe for our date! 💕");
+        return;
+      }
+      if (saveChoice('vibe', chosenVibe)) {
+        window.location.href = 'drink.html';
+      }
+    }
+  </script>
+</body>
+</html>
